@@ -10,13 +10,13 @@ This script will deploy an EKS cluster in the following region with these instan
 
 * Open AWS Account (may require credit card verification)
 * Setup admin user with programmatic and console access
-** IAM > Add group > admin (with AdminAccess Policy)
-** IAM > Add user > enable prog and console access and associate with admin group
-** Download credentials CSV
+  * IAM > Add group > admin (with AdminAccess Policy)
+  * IAM > Add user > enable prog and console access and associate with admin group
+  * Download credentials CSV
 * Install AWS CLI
-** Download and install
-** Run `aws configure` (input API keys wiith default region to us-east-1)
-** Validate aws cli installation with `aws ec2 describe-instances` and expect some output without errors.
+  * Download and install
+  * Run `aws configure` (input API keys wiith default region to us-east-1)
+  * Validate aws cli installation with `aws ec2 describe-instances` and expect some output without errors.
 * Install kubectl and helm
 * Install aws-iam-authenticator
 * Install terraform
@@ -24,7 +24,7 @@ This script will deploy an EKS cluster in the following region with these instan
 ## Create EKS cluster on your AWS
 
 * create a working folder and download the latest terraform script for creating EKS
-** download - https://github.com/dsohk/susecap-tf-eks
+  * download - https://github.com/dsohk/susecap-tf-eks
 * Make sure you run terraform command in your working folder.
 * Run `terraform init` to download aws provider plugin for terraform
 * Run `terraform plan` to valiate TF files syntax
@@ -36,6 +36,7 @@ This script will deploy an EKS cluster in the following region with these instan
 * At this point, you should be able to use your kubectl to control your EKS cluster. Test with `kubectl get nodes`
 
 ## Setup helm repo for SUSE CAP
+
 * Run "helm add repo ...." or "helm repo update" (fetch the latest helm charts)
 * Run "helm repo list"
 * Run "helm search suse" to list SUSE related helm charts
@@ -46,4 +47,4 @@ https://www.suse.com/documentation/cloud-application-platform-1/singlehtml/book_
 
 ## Destroy EKS cluster on your AWS
 
-* Run "terraform destroy" to clean up resources provisioned by TF on your AWS account.
+* Run `terraform destroy` to clean up resources provisioned by TF on your AWS account.
