@@ -1,0 +1,31 @@
+env:
+  DOMAIN: open-cloud.net
+  UAA_HOST: uaa.open-cloud.net
+  UAA_PORT: 2793
+
+  GARDEN_ROOTFS_DRIVER: overlay-xfs
+  GARDEN_APPARMOR_PROFILE: ""
+
+services:
+  loadbalanced: true
+
+kube:
+  storage_class:
+    # Change the value to the storage class you use
+    persistent: "gp2"
+    shared: "gp2"
+
+  # The default registry images are fetched from
+  registry:
+    hostname: "registry.suse.com"
+    username: ""
+    password: ""
+  organization: "cap"
+
+secrets:
+  # Create a very strong password for user 'admin'
+  CLUSTER_ADMIN_PASSWORD: Demo123$
+
+  # Create a very strong password, and protect it because it
+  # provides root access to everything
+  UAA_ADMIN_CLIENT_SECRET: password

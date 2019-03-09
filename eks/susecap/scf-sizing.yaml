@@ -1,0 +1,39 @@
+sizing:
+  adapter:
+    count: 2
+  api_group:
+    count: 2
+  cc_clock:
+    count: 2
+  cc_uploader:
+    count: 2
+  cc_worker:
+    count: 2
+  cf_usb:
+    count: 2
+  diego_api:
+    count: 2
+  diego_brain:
+    count: 2
+  diego_cell:
+    count: 4
+  diego_ssh:
+    count: 2
+  doppler:
+    count: 2
+  log-api:
+    count: 2
+  mysql:
+    count: 2
+  nats:
+    count: 2
+  nfs_broker:
+    count: 2
+  router:
+    count: 2
+  routing_api:
+    count: 2
+  syslog_scheduler:
+    count: 2
+  tcp_router:
+    count: 2

@@ -1,0 +1,15 @@
+kubernetes:
+  authEndpoint: 11052775B61FB7A8A4622F0FD42938CB.yl4.us-east-1.eks.amazonaws.com
+prometheus:
+  kubeStateMetrics:
+    enabled: true
+  server:
+    persistentVolume:
+      storageClass: gp2scoped
+kube:
+  external_metrics_port: 443
+nginx:
+  username: susecap-metrics
+  password: S3cret123
+
+

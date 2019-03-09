@@ -23,23 +23,47 @@ This script will deploy an EKS cluster in the following region with these instan
 
 ## Create EKS cluster on your AWS
 
-* create a working folder and download the latest terraform script for creating EKS
-  * download - https://github.com/dsohk/susecap-tf-eks
-* Make sure you run terraform command in your working folder.
-* Run `terraform init` to download aws provider plugin for terraform
-* Run `terraform plan` to valiate TF files syntax
-* Run `terraform apply` to provision resources defined in TF to your AWS account
-* Run "terraform output" to list down the output (configmap and kubeconfig)
-* Copy the content of configmap into configmap.yaml file
-* Copy the content of kubeconfig into kubeconfig.eks file
-* Run `KUBECONFIG=kubeconfig.eks kubectl apply -f configmap.yaml` to configure your EKS cluster to be able to authenticate with your AWS IAM.
-* At this point, you should be able to use your kubectl to control your EKS cluster. Test with `kubectl get nodes`
+Run the build script to create your EKS cluster on your AWS.
+
+```
+git clone https://github.com/dsohk/susecap-tf-eks.git
+cd susecap-tf-eks
+cd eks
+./01-build-eks.sh
+```
 
 ## Setup helm repo for SUSE CAP
 
-* Run "helm add repo ...." or "helm repo update" (fetch the latest helm charts)
-* Run "helm repo list"
-* Run "helm search suse" to list SUSE related helm charts
+After the above step is finished, run the following script to get your helm chart
+ready.
+
+```
+./02-config-helm.sh
+```
+
+## Install SUSE CAP (uaa + scf + stratos)
+
+(Working in progress)
+
+```
+./03-install-susecap.sh
+```
+
+## Install metrics
+
+(Working in progress)
+
+```
+./04-install-metrics.sh
+```
+
+## Install minibrokers
+
+(Working in progress)
+
+```
+./05-install-minibroker.sh
+```
 
 Refer to SUSE CAP doc to continue the deployment of CAP on your EKS
 https://www.suse.com/documentation/cloud-application-platform-1/singlehtml/book_cap_guides/book_cap_guides.html#sec.cap.install-uaa-prod
@@ -47,4 +71,4 @@ https://www.suse.com/documentation/cloud-application-platform-1/singlehtml/book_
 
 ## Destroy EKS cluster on your AWS
 
-* Run `terraform destroy` to clean up resources provisioned by TF on your AWS account.
+* Run `terraform destroy` to clean up resources provisioned by terraform on your AWS account.
