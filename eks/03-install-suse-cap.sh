@@ -11,6 +11,9 @@ helm install suse/uaa \
 --values susecap/scf-config-values.yaml \
 --values susecap/uaa-sizing.yaml
 
+# fetch the ELB hostnames for all CAP endpoints
+UAA_LB="$(kubectl get svc --namespace uaa uaa-uaa-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+
 # wait until all pods are up and running
 sleep 5
 
@@ -46,7 +49,6 @@ helm install suse/cf \
 --name susecf-scf \
 --namespace scf \
 --values susecap/scf-config-values.yaml \
---values susecap/scf-sizing.yaml \
 --set "secrets.UAA_CA_CERT=${CA_CERT}"
 
 # wait until all pods are up
@@ -54,6 +56,11 @@ sleep 5
 
 # notice the CNAME for ELB on uaa-public service
 kubectl get services --namespace scf -o wide | grep elb
+
+GOROUTER_LB="$(kubectl get svc --namespace scf router-gorouter-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+DIEGOSSH_LB="$(kubectl get svc --namespace scf diego-ssh-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+TCPROUTER_LB="$(kubectl get svc --namespace scf tcp-router-tcp-router-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+
 
 # configure DNS (CNAME)
 # example.com	scf/router-gorouter-public
@@ -73,4 +80,14 @@ sleep 5
 # configure DNS (CNAME) for Stratos
 # console.example.com -> stratos/console-ui-ext
 
+CONSOLE_LB="$(kubectl get svc --namespace stratos console-ui-ext -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+METRICS_LB="$(kubectl get svc --namespace stratos metrics-metrics-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+
+# capture the following info
+
+# EKS API endpoint
+aws eks describe-cluster --name susecap-eks --output json | jq '.cluster.endpoint'
+
+# EKS Cluster Name (arn)
+aws eks describe-cluster --name susecap-eks --output json | jq '.cluster.arn'
 

@@ -1,5 +1,5 @@
 kubernetes:
-  authEndpoint: 11052775B61FB7A8A4622F0FD42938CB.yl4.us-east-1.eks.amazonaws.com
+  authEndpoint: https://0A56D4A070CB8B3813F2FC2B6810810E.yl4.us-east-1.eks.amazonaws.com
 prometheus:
   kubeStateMetrics:
     enabled: true
@@ -11,5 +11,5 @@ kube:
 nginx:
   username: susecap-metrics
   password: S3cret123
-
+useLb: true
 

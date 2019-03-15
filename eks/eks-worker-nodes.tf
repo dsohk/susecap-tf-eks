@@ -113,8 +113,8 @@ resource "aws_launch_configuration" "susecap" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.susecap-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
-  instance_type               = "m4.large"
-  name_prefix                 = "terraform-eks-susecap"
+  instance_type               = "${var.cluster-instance-type}"
+  name_prefix                 = "${var.cluster-name}"
   security_groups             = ["${aws_security_group.susecap-node.id}"]
   user_data_base64            = "${base64encode(local.susecap-node-userdata)}"
 
@@ -130,16 +130,16 @@ resource "aws_launch_configuration" "susecap" {
 }
 
 resource "aws_autoscaling_group" "susecap" {
-  desired_capacity     = 3
+  desired_capacity     = "${var.cluster-max-size}"
   launch_configuration = "${aws_launch_configuration.susecap.id}"
-  max_size             = 3
-  min_size             = 1
-  name                 = "terraform-eks-susecap"
+  max_size             = "${var.cluster-max-size}"
+  min_size             = "${var.cluster-min-size}"
+  name                 = "${var.cluster-name}"
   vpc_zone_identifier  = ["${aws_subnet.susecap.*.id}"]
 
   tag {
     key                 = "Name"
-    value               = "terraform-eks-susecap"
+    value               = "${var.cluster-name}"
     propagate_at_launch = true
   }
 

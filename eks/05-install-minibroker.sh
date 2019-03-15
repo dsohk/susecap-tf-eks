@@ -8,10 +8,11 @@ helm status minibroker
 # wait until minibroker done
 
 cf api --skip-ssl-validation https://api.open-cloud.net
-cf login -u admin -p password
+cf login -u admin -p "Demo123$"
 cf create-org demo
 cf create-space dev -o demo
 cf create-space prod -o demo
+sleep 10
 cf target -o demo -s dev
 cf create-service-broker minibroker username password http://minibroker-minibroker.minibroker.svc.cluster.local
 cf service-brokers

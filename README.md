@@ -69,6 +69,18 @@ Refer to SUSE CAP doc to continue the deployment of CAP on your EKS
 https://www.suse.com/documentation/cloud-application-platform-1/singlehtml/book_cap_guides/book_cap_guides.html#sec.cap.install-uaa-prod
 
 
-## Destroy EKS cluster on your AWS
+## Tear down SUSE CAP and EKS cluster on AWS
 
-* Run `terraform destroy` to clean up resources provisioned by terraform on your AWS account.
+To tear down the entire SUSE CAP and EKS cluster on AWS, run the following
+command:
+
+```
+./10-clean-up.sh
+```
+
+## notes
+
+1. skip ssl validation when registering kubernetes endpoints in stratos
+2. enter "susecap-eks" as name of cluster
+
+

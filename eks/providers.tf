@@ -12,3 +12,11 @@ data "aws_region" "current" {}
 
 data "aws_availability_zones" "available" {}
 
+
+provider "cloudflare" {}
+
+provider "helm" {
+  kubernetes {
+    config_path = "env/kubeconfig.eks"
+  }
+}
