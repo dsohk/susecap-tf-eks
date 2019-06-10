@@ -37,3 +37,29 @@ variable "susecap-domain" {
   type    = "string"
 }
 
+variable "susecap-admin-password" {
+  default = "Demo123$"
+  type    = "string"
+}
+
+variable "susecap-admin-client-secret" {
+  default = "s3cret"
+  type    = "string"
+}
+
+
+##############
+# CloudFlare #
+##############
+
+variable "cloudflare-email" {
+  default = "derekso.email@gmail.com"
+  type    = "string"
+}
+
+variable "cloudflare-token" {
+  default = "d87f957927d272c65e60b382970eb749f36f6"
+  type    = "string"
+}
+
+

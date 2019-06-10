@@ -13,10 +13,17 @@ data "aws_region" "current" {}
 data "aws_availability_zones" "available" {}
 
 
-provider "cloudflare" {}
+provider "cloudflare" {
+  email = "${var.cloudflare-email}"
+  token = "${var.cloudflare-token}"
+}
+
+provider "kubernetes" {
+  config_path = "${path.module}/env/kubeconfig.eks"
+}
 
 provider "helm" {
   kubernetes {
-    config_path = "env/kubeconfig.eks"
+    config_path = "${path.module}/env/kubeconfig.eks"
   }
 }

@@ -89,7 +89,7 @@ resource "aws_security_group_rule" "susecap-node-ingress-cluster" {
 data "aws_ami" "eks-worker" {
   filter {
     name   = "name"
-    values = ["amazon-eks-node-v*"]
+    values = ["amazon-eks-node-1.12-v2019*"]
   }
 
   most_recent = true
@@ -149,3 +149,5 @@ resource "aws_autoscaling_group" "susecap" {
     propagate_at_launch = true
   }
 }
+
+

@@ -1,5 +1,5 @@
 kubernetes:
-  authEndpoint: https://0A56D4A070CB8B3813F2FC2B6810810E.yl4.us-east-1.eks.amazonaws.com
+  authEndpoint: https://F2F025FDD2E5035A006B94A826A47ED5.sk1.us-east-1.eks.amazonaws.com
 prometheus:
   kubeStateMetrics:
     enabled: true

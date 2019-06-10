@@ -24,20 +24,6 @@ kubectl get services -n uaa -o wide | grep elb
 # uaa.example.com	uaa/uaa-public
 # *.uaa.example.com	uaa/uaa-public
 
-# Because of the way EKS runs health checks,
-# Cloud Application Platform requires an edit to one of the scf Helm charts,
-# and then after a successful scf deployment remove a listening port from the Elastic Load Balancer's listeners list.
-mkdir -p tmp
-cp ~/.helm/cache/archive/cf-2.14.5.tgz tmp/cf-2.14.5.tgz
-cd tmp
-tar xvf cf-2.14.5.tgz
-# vi cf/templates/tcp-router.yaml
-rm cf-2.14.5.tgz
-tar cvzf cf-2.14.5.tgz cf/*
-cp ~/.helm/cache/archive/cf-2.14.5.tgz ~/.helm/cache/archive/cf-2.14.5.tgz.orig
-cp cf-2.14.5.tgz ~/.helm/cache/archive/cf-2.14.5.tgz
-cd ..
-
 # install scf
 
 SECRET=$(kubectl get pods -n uaa -o jsonpath='{.items[?(.metadata.name=="uaa-0")].spec.containers[?(.name=="uaa")].env[?(.name=="INTERNAL_CA_CERT")].valueFrom.secretKeyRef.name}')
@@ -80,8 +66,7 @@ sleep 5
 # configure DNS (CNAME) for Stratos
 # console.example.com -> stratos/console-ui-ext
 
-CONSOLE_LB="$(kubectl get svc --namespace stratos console-ui-ext -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-METRICS_LB="$(kubectl get svc --namespace stratos metrics-metrics-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+CONSOLE_LB="$(kubectl get svc -n stratos susecf-console-ui-ext -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 
 # capture the following info
 

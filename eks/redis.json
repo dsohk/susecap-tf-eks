@@ -1,0 +1,1 @@
+[{ "protocol": "tcp", "destination": "172.20.0.0/16", "ports": "6379", "description": "Allow Redis traffic" }]

@@ -50,10 +50,14 @@ users:
 KUBECONFIG
 }
 
-output "config_map_aws_auth" {
-  value = "${local.config_map_aws_auth}"
+resource "local_file" "configmap" {
+  content = "${local.config_map_aws_auth}"
+  filename = "${path.module}/env/configmap.yaml"
 }
 
-output "kubeconfig" {
-  value = "${local.kubeconfig}"
+resource "local_file" "kubeconfig" {
+  content = "${local.kubeconfig}"
+  filename = "${path.module}/env/kubeconfig.eks"
 }
+
+
