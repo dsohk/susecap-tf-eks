@@ -1,0 +1,14 @@
+env:
+  EIRINI_PERSI_PLANS: |
+    - id: "default"
+      name: "default"
+      description: "Eirini persistence broker"
+      free: true
+      kube_storage_class: "gp2"
+      default_size: "20Gi"
+
+enable:
+  eirini: true
+
+kube:
+  auth: rbac

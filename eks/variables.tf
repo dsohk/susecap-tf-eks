@@ -46,4 +46,3 @@ variable "susecap-admin-client-secret" {
   default = "s3cret"
   type    = "string"
 }
-

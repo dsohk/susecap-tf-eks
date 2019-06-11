@@ -1,7 +1,7 @@
 #! /bin/bash -ex
 
 terraform init
-terraform apply
+terraform apply --auto-approve
 
 # enable eks to be authenticable with aws-authenticator
 export KUBECONFIG=env/kubeconfig.eks

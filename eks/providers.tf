@@ -12,12 +12,6 @@ data "aws_region" "current" {}
 
 data "aws_availability_zones" "available" {}
 
-
-provider "cloudflare" {
-  email = "${var.cloudflare-email}"
-  token = "${var.cloudflare-token}"
-}
-
 provider "kubernetes" {
   config_path = "${path.module}/env/kubeconfig.eks"
 }
