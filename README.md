@@ -4,7 +4,8 @@
 
 This script will deploy an EKS cluster in the following region with these instance sizes.
 * region: us-east-1
-* instance size: 3 xlarge (16GB RAM) worker nodes across different AZs
+* instance size: 3 xlarge (8GB RAM) worker nodes across different AZs
+* The above configuration will cost around $0.6 per hour (or around $432 per month)
 
 ## Client PC setup (linux, mac, windows)
 
@@ -20,6 +21,13 @@ This script will deploy an EKS cluster in the following region with these instan
 * Install kubectl and helm
 * Install aws-iam-authenticator
 * Install terraform
+* Install flarectl
+
+## Setup cloudflare
+
+* Register a domain and transfer the domain to cloudflare
+* Obtain cloudflare global API token and save it into ~/.cloudflare/credentials
+
 
 ## Create EKS cluster on your AWS
 
