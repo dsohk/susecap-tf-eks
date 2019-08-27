@@ -28,6 +28,14 @@ This script will deploy an EKS cluster in the following region with these instan
 * Register a domain and transfer the domain to cloudflare
 * Obtain cloudflare global API token and save it into ~/.cloudflare/credentials
 
+Here's the example of the `~/.cloudflare/credentials` file:
+
+```
+#! /bin/bash -e
+
+export CF_API_KEY=<Cloudflare Global API token>
+export CF_API_EMAIL=<Your Email Address for Cloudflare>
+```
 
 ## Create EKS cluster on your AWS
 
