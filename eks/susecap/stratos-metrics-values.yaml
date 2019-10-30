@@ -1,15 +1,21 @@
+---
 kubernetes:
   authEndpoint: https://F2F025FDD2E5035A006B94A826A47ED5.sk1.us-east-1.eks.amazonaws.com
 prometheus:
+  alertmanager:
+    enabled: true
+  pushgateway:
+    enabled: true
+  nodeExporter:
+    enabled: true
   kubeStateMetrics:
     enabled: true
   server:
     persistentVolume:
       storageClass: gp2scoped
-kube:
-  external_metrics_port: 443
-nginx:
+      sharedClass: gp2scoped
+metrics:
   username: susecap-metrics
   password: S3cret123
-useLb: true
-
+services:
+  loadbalanced: true

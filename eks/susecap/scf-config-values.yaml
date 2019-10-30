@@ -1,3 +1,4 @@
+---
 env:
   DOMAIN: open-cloud.net
   UAA_HOST: uaa.open-cloud.net

@@ -1,0 +1,9 @@
+---
+enable:
+  eirini: true
+  autoscaler: true
+  cf_usb: true
+  credhub: true
+
+kube:
+  auth: rbac

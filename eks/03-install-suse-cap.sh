@@ -14,13 +14,6 @@ kubectl apply -f susecap/storage-class.yaml
 source ~/.cloudflare/credentials
 
 
-# #########################
-# CREATE EIRINI NAMESPACE #
-# #########################
-
-# create eirini namespace
-kubectl create -f - <<< '{"kind": "Namespace","apiVersion": "v1","metadata": {"name": "eirini","labels": {"name": "eirini"}}}'
-
 # ###############
 # SUSECAP - UAA #
 # ###############
@@ -52,7 +45,7 @@ helm install suse/cf \
 --name susecf-scf \
 --namespace scf \
 --values susecap/scf-config-values.yaml \
---values susecap/scf-enable-eirini.yaml \
+--values susecap/scf-enable-features.yaml \
 --set "secrets.UAA_CA_CERT=${CA_CERT}"
 
 read -p 'Please run watch -c "kubectl get pod -n scf" in another session. Press [Enter] key to it is ready...'
@@ -75,6 +68,7 @@ flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'tcp' --con
 helm install suse/console \
 --name susecf-console \
 --namespace stratos \
+--set console.techPreview=true \
 --values susecap/scf-config-values.yaml \
 --values susecap/stratos-config-values.yaml
 
@@ -96,9 +90,8 @@ helm install suse/metrics \
 --name susecf-metrics \
 --namespace metrics \
 --values susecap/scf-config-values.yaml \
---values susecap/stratos-config-values.yaml \
 --values susecap/stratos-metrics-values.yaml \
---set "kubernetes.authEndpoint=$EKS_EP"
+--set "kubernetes.apiEndpoint=${EKS_EP}"
 
 read -p 'Please run watch -c "kubectl get pod -n metrics" in another session. Press [Enter] key to it is ready...'
 

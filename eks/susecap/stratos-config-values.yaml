@@ -1,6 +1,5 @@
+---
 kube:
-  external_console_http_port: 8180
   storage_class:
     # Make sure to change the value in here to whatever storage class you use
     persistent: "gp2scoped"
-    shared: "gp2scoped"
