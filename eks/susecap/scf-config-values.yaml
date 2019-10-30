@@ -22,6 +22,10 @@ kube:
     username: ""
     password: ""
   organization: "cap"
+  auth: rbac
+
+enable:
+  autoscaler: true
 
 secrets:
   # Create a very strong password for user 'admin'

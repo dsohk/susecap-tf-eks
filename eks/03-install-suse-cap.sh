@@ -13,7 +13,6 @@ kubectl apply -f susecap/storage-class.yaml
 # load Cloudflare API credentials
 source ~/.cloudflare/credentials
 
-
 # ###############
 # SUSECAP - UAA #
 # ###############
@@ -32,6 +31,8 @@ UAA_LB="$(kubectl get svc --namespace uaa uaa-uaa-public -o jsonpath='{.status.l
 flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name '*.uaa' --content "$UAA_LB"
 flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'uaa' --content "$UAA_LB"
 
+curl --insecure https://uaa.open-cloud.net:2793/.well-known/openid-configuration
+
 # ###############
 # SUSECAP - SCF #
 # ###############
@@ -45,20 +46,20 @@ helm install suse/cf \
 --name susecf-scf \
 --namespace scf \
 --values susecap/scf-config-values.yaml \
---values susecap/scf-enable-features.yaml \
 --set "secrets.UAA_CA_CERT=${CA_CERT}"
 
 read -p 'Please run watch -c "kubectl get pod -n scf" in another session. Press [Enter] key to it is ready...'
 
 GOROUTER_LB="$(kubectl get svc --namespace scf router-gorouter-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-# disable diegossh (not used in eirini)
-# DIEGOSSH_LB="$(kubectl get svc --namespace scf diego-ssh-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+DIEGOSSH_LB="$(kubectl get svc --namespace scf diego-ssh-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 TCPROUTER_LB="$(kubectl get svc --namespace scf tcp-router-tcp-router-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 
 # configure DNS (CNAME)
+## flarectl dns create-or-update doesn't support root records
+## https://github.com/cloudflare/cloudflare-go/issues/206
 flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name '$SCF_DOMAIN' --content "$GOROUTER_LB"
 flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name '*' --content "$GOROUTER_LB"
-# flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'ssh' --content "$DIEGOSSH_LB"
+flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'ssh' --content "$DIEGOSSH_LB"
 flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'tcp' --content "$TCPROUTER_LB"
 
 # ###################

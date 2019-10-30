@@ -89,7 +89,7 @@ resource "aws_security_group_rule" "susecap-node-ingress-cluster" {
 data "aws_ami" "eks-worker" {
   filter {
     name   = "name"
-    values = ["amazon-eks-node-1.12-v2019*"]
+    values = ["amazon-eks-node-1.14-v2019*"]
   }
 
   most_recent = true
@@ -130,7 +130,7 @@ resource "aws_launch_configuration" "susecap" {
 }
 
 resource "aws_autoscaling_group" "susecap" {
-  desired_capacity     = "${var.cluster-max-size}"
+  desired_capacity     = "${var.cluster-desire-size}"
   launch_configuration = "${aws_launch_configuration.susecap.id}"
   max_size             = "${var.cluster-max-size}"
   min_size             = "${var.cluster-min-size}"

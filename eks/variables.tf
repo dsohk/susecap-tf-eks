@@ -15,8 +15,12 @@ variable "cluster-min-size" {
   default = 1
 }
 
+variable "cluster-desire-size" {
+  default = 4
+}
+
 variable "cluster-max-size" {
-  default = 3
+  default = 6
 }
 
 variable "cluster-instance-type" {
