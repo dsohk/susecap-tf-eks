@@ -7,6 +7,18 @@ env:
   GARDEN_ROOTFS_DRIVER: overlay-xfs
   GARDEN_APPARMOR_PROFILE: ""
 
+  # default stack has to be cflinuxfs3 when eirini is enabled
+  DEFAULT_STACK: cflinuxfs3
+  # configure eirini persistence storage
+  # https://github.com/SUSE/scf/wiki/Persistence-with-Eirini-in-SCF
+  EIRINI_PERSI_PLANS: |
+      - id: "default"
+        name: "default"
+        description: "Eirini persistence broker"
+        free: true
+        kube_storage_class: "gp2"
+        default_size: "5Gi"
+
 services:
   loadbalanced: true
 
@@ -25,7 +37,9 @@ kube:
   auth: rbac
 
 enable:
+  uaa: true
   autoscaler: true
+  eirini: true
 
 secrets:
   # Create a very strong password for user 'admin'
