@@ -33,6 +33,8 @@ helm install suse/cf \
 --values susecap/scf-config-values.yaml
 
 # If you have enabled eirini, remember to run the follow command to finish setting up secret.
+# See: https://documentation.suse.com/suse-cap/1.5.1/single-html/cap-guides/#sec-cap-eirini-enable
+kubectl certificate approve scf-bits-service-ssl-cert
 
 read -p 'Please run watch -c "kubectl get pod -n scf" in another session. Press [Enter] key to it is ready...'
 
