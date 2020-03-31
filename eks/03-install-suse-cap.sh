@@ -1,6 +1,12 @@
 #! /bin/bash -ex
 
-# Updated to deploy SUSE CAP 1.5.1 with embedded uaa approach
+# Updated to deploy SUSE CAP 1.5.2 with embedded uaa approach
+
+# lock down helm chart version
+# See: https://documentation.suse.com/suse-cap/1.5.2/html/cap-guides/cha-cap-depl-notes.html#id-1.3.4.3.10
+export HELM_SCF_VER=2.20.3
+export HELM_STRATOS_VER=2.7.0
+export HELM_METRICS_VER=1.1.2
 
 export SCF_DOMAIN=open-cloud.net
 export KUBECONFIG=env/kubeconfig.eks
@@ -29,6 +35,7 @@ source ~/.cloudflare/credentials
 
 helm install suse/cf \
 --name susecf-scf \
+--version $HELM_SCF_VER \
 --namespace scf \
 --values susecap/scf-config-values.yaml
 
@@ -49,7 +56,7 @@ GOROUTER_LB="$(kubectl get svc --namespace scf router-gorouter-public -o jsonpat
 EIRINISSH_LB="$(kubectl get svc --namespace scf eirini-ssh-eirini-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 # DIEGOSSH_LB="$(kubectl get svc --namespace scf diego-ssh-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 TCPROUTER_LB="$(kubectl get svc --namespace scf tcp-router-tcp-router-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-UAA_LB="$(kubectl get svc --namespace uaa uaa-uaa-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+UAA_LB="$(kubectl get svc --namespace scf uaa-uaa-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 
 # configure DNS in cloudflare
 ## flarectl dns create-or-update doesn't support root records
@@ -68,6 +75,7 @@ flarectl dns create-or-update --zone $SCF_DOMAIN --type CNAME --name 'tcp' --con
 
 helm install suse/console \
 --name susecf-console \
+--version $HELM_STRATOS_VER \
 --namespace stratos \
 --set console.techPreview=true \
 --set console.migrateVolumes=false \
@@ -90,6 +98,7 @@ EKS_EP="$(aws eks describe-cluster --name susecap-eks --output json | jq '.clust
 
 helm install suse/metrics \
 --name susecf-metrics \
+--version $HELM_METRICS_VER \
 --namespace metrics \
 --values susecap/scf-config-values.yaml \
 --values susecap/stratos-metrics-values.yaml \
