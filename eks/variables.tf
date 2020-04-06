@@ -16,7 +16,7 @@ variable "cluster-min-size" {
 }
 
 variable "cluster-desire-size" {
-  default = 4
+  default = 3
 }
 
 variable "cluster-max-size" {

@@ -41,6 +41,8 @@ helm install suse/cf \
 
 # If you have enabled eirini, remember to run the follow command to finish setting up secret.
 # See: https://documentation.suse.com/suse-cap/1.5.1/single-html/cap-guides/#sec-cap-eirini-enable
+export POD_SECRET_GENERATION=`kubectl get pods -n scf -ojsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' -l skiff-role-name=secret-generation`
+kubectl logs pod/${POD_SECRET_GENERATION} -n scf  # check the log until it says "waiting for ssl cert approval"
 kubectl certificate approve scf-bits-service-ssl-cert
 
 read -p 'Please run watch -c "kubectl get pod -n scf" in another session. Press [Enter] key to it is ready...'
@@ -52,11 +54,11 @@ read -p 'Please run watch -c "kubectl get pod -n scf" in another session. Press 
 # uaa-uaa-public                              LoadBalancer   172.20.32.111    a10bba66f473b11eaafaa0e5cf73bcb8-1112881382.us-east-1.elb.amazonaws.com   2793:32741/TCP                                                                                                                                    15h
 
 # capture AWS LB end points for DNS CNAME Setup
-GOROUTER_LB="$(kubectl get svc --namespace scf router-gorouter-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-EIRINISSH_LB="$(kubectl get svc --namespace scf eirini-ssh-eirini-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+export GOROUTER_LB="$(kubectl get svc --namespace scf router-gorouter-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+export EIRINISSH_LB="$(kubectl get svc --namespace scf eirini-ssh-eirini-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 # DIEGOSSH_LB="$(kubectl get svc --namespace scf diego-ssh-ssh-proxy-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-TCPROUTER_LB="$(kubectl get svc --namespace scf tcp-router-tcp-router-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
-UAA_LB="$(kubectl get svc --namespace scf uaa-uaa-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+export TCPROUTER_LB="$(kubectl get svc --namespace scf tcp-router-tcp-router-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+export UAA_LB="$(kubectl get svc --namespace scf uaa-uaa-public -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 
 # configure DNS in cloudflare
 ## flarectl dns create-or-update doesn't support root records
