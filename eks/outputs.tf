@@ -51,12 +51,12 @@ KUBECONFIG
 }
 
 resource "local_file" "configmap" {
-  content = "${local.config_map_aws_auth}"
+  content = local.config_map_aws_auth
   filename = "${path.module}/env/configmap.yaml"
 }
 
 resource "local_file" "kubeconfig" {
-  content = "${local.kubeconfig}"
+  content = local.kubeconfig
   filename = "${path.module}/env/kubeconfig.eks"
 }
 

@@ -2,6 +2,20 @@
 # Provider Configuration
 #
 
+terraform {
+
+  required_version = ">= 0.12"
+
+  required_providers {
+    aws = "~> 2.56"
+    helm = "~> 1.1"
+    kubernetes = "~> 1.11"
+    local = "~> 1.4"
+  }
+
+}
+
+
 provider "aws" {
   region = "us-east-1"
 }

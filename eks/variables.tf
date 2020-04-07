@@ -8,7 +8,7 @@
 
 variable "cluster-name" {
   default = "susecap-eks"
-  type    = "string"
+  type    = string
 }
 
 variable "cluster-min-size" {
@@ -25,7 +25,7 @@ variable "cluster-max-size" {
 
 variable "cluster-instance-type" {
   default = "m4.large"
-  type    = "string"
+  type    = string
 }
 
 variable "aws-az" {
@@ -38,15 +38,15 @@ variable "aws-az" {
 
 variable "susecap-domain" {
   default = "open-cloud.net"
-  type    = "string"
+  type    = string
 }
 
 variable "susecap-admin-password" {
   default = "Demo123$"
-  type    = "string"
+  type    = string
 }
 
 variable "susecap-admin-client-secret" {
   default = "s3cret"
-  type    = "string"
+  type    = string
 }
